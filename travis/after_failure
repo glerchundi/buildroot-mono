@@ -1,0 +1,4 @@
+#!/bin/bash
+
+tail -30 ~/stderr.*.log
+tail -30 ~/stdout.*.log

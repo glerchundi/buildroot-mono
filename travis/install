@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# move to $HOME
+cd ~
+
+# download/untar/verify/prepare buildroot
+wget -nv https://github.com/glerchundi/buildroot/releases/download/v$BR_RELEASE/buildroot-$BR_RELEASE.tar.bz2
+tar xf buildroot-*.tar*
+rm buildroot-*.tar*
+ln -s buildroot-* buildroot
+
+# copy default defconfig to buildroot root
+cp $TRAVIS_BUILD_DIR/defconfig ~/buildroot/.defconfig

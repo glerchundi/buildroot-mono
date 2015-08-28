@@ -1,0 +1,26 @@
+sudo: required
+language: bash
+services:
+  - docker
+env:
+  global:
+    - BR_RELEASE=2015.08-rc2.rev1
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y build-essential libncurses5-dev rsync cpio python unzip bc wget
+install:
+  - if [ -f ${TRAVIS_BUILD_DIR}/.travis.yml.install.pre ]; then bash -e ${TRAVIS_BUILD_DIR}/.travis.yml.install.pre; fi
+  - bash -e $(dirname $(readlink -f ${TRAVIS_BUILD_DIR}/.travis.yml))/install
+  - if [ -f ${TRAVIS_BUILD_DIR}/.travis.yml.install.post ]; then bash -e ${TRAVIS_BUILD_DIR}/.travis.yml.install.post; fi
+script:
+  - if [ -f ${TRAVIS_BUILD_DIR}/.travis.yml.script.pre ]; then bash -e ${TRAVIS_BUILD_DIR}/.travis.yml.script.pre; fi
+  - bash -e $(dirname $(readlink -f $TRAVIS_BUILD_DIR/.travis.yml))/script
+  - if [ -f ${TRAVIS_BUILD_DIR}/.travis.yml.script.post ]; then bash -e ${TRAVIS_BUILD_DIR}/.travis.yml.script.post; fi
+after_failure:
+  - if [ -f ${TRAVIS_BUILD_DIR}/.travis.yml.after_failure.pre ]; then bash -e ${TRAVIS_BUILD_DIR}/.travis.yml.after_failure.pre; fi
+  - bash -e $(dirname $(readlink -f $TRAVIS_BUILD_DIR/.travis.yml))/after_failure
+  - if [ -f ${TRAVIS_BUILD_DIR}/.travis.yml.after_failure.post ]; then bash -e ${TRAVIS_BUILD_DIR}/.travis.yml.after_failure.post; fi
+after_success:
+  - if [ -f ${TRAVIS_BUILD_DIR}/.travis.yml.after_success.pre ]; then bash -e ${TRAVIS_BUILD_DIR}/.travis.yml.after_success.pre; fi
+  - bash -e $(dirname $(readlink -f $TRAVIS_BUILD_DIR/.travis.yml))/after_success
+  - if [ -f ${TRAVIS_BUILD_DIR}/.travis.yml.after_success.post ]; then bash -e ${TRAVIS_BUILD_DIR}/.travis.yml.after_success.post; fi
