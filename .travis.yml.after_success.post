@@ -1,0 +1,22 @@
+#!/bin/bash
+set -x
+
+# exit if TRAVIS_TAG is empty, no need to release anything
+if [ -z "${TRAVIS_TAG}" ]; then
+  exit 0
+fi
+
+# go home!
+cd ~
+
+# create Dockerfile
+cat > ./Dockerfile <<EOL
+FROM scratch
+MAINTAINER Gorka Lerchundi Osa <glertxundi@gmail.com>
+ADD ./buildroot/output/images/rootfs.tar /
+EOL
+
+# build & push
+docker login -e="." -u="${QUAY_USERNAME}" -p="${QUAY_PASSWORD}" quay.io
+docker build -t quay.io/glerchundi/buildroot-mono:${TRAVIS_TAG} .
+docker push quay.io/glerchundi/buildroot-mono:${TRAVIS_TAG}
