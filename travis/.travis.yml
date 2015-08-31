@@ -4,7 +4,8 @@ services:
   - docker
 env:
   global:
-    - BR_RELEASE=2015.08-rc2.rev1
+    - BR_RELEASE=2015.08-rc2.rev2
+    - CT_RELEASE=1.0.0
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y build-essential libncurses5-dev rsync cpio python unzip bc wget
