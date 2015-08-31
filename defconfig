@@ -37,4 +37,7 @@ BR2_TARGET_GENERIC_ISSUE="mono"
 BR2_PACKAGE_MONO_ARCH_SUPPORTS=y
 BR2_PACKAGE_MONO=y
 BR2_PACKAGE_CA_CERTIFICATES=y
-
+# until this is fixed in the stable branch: 
+# https://github.com/mono/mono/commit/73e4bfeac790cee7681f3797caee41b65186fe7e
+BR2_TARGET_TZ_INFO=y
+BR2_TARGET_LOCALTIME="Etc/UTC"
