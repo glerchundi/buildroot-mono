@@ -4,3 +4,4 @@ set -x
 # copy additional files
 cp ${TRAVIS_BUILD_DIR}/usertable.txt ~/usertable.txt
 cp ${TRAVIS_BUILD_DIR}/postbuild.sh ~/postbuild.sh
+chmod 0755 ~/postbuild.sh
