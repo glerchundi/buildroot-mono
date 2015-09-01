@@ -1,0 +1,6 @@
+#!/bin/bash
+set -x
+
+# copy additional files
+cp ${TRAVIS_BUILD_DIR}/usertable.txt ~/usertable.txt
+cp ${TRAVIS_BUILD_DIR}/postbuild.sh ~/postbuild.sh

@@ -18,8 +18,14 @@ BR2_TOOLCHAIN_EXTERNAL_INET_IPV6=y
 BR2_TOOLCHAIN_EXTERNAL_WCHAR=y
 BR2_TOOLCHAIN_EXTERNAL_CXX=y
 
-# iptables & no init
+# 
+# additional utilities
+#  - iptables: just in case
+#  - openssl: because it's useful to access TLS backed endpoint inside container (ex. using wget)
+#  - disable init
+#
 BR2_PACKAGE_IPTABLES=y
+BR2_PACKAGE_OPENSSL=y
 BR2_INIT_NONE=y
 
 # output formats
@@ -37,6 +43,9 @@ BR2_TARGET_GENERIC_ISSUE="mono"
 BR2_PACKAGE_MONO_ARCH_SUPPORTS=y
 BR2_PACKAGE_MONO=y
 BR2_PACKAGE_CA_CERTIFICATES=y
+# additional rootfs customizations
+BR2_ROOTFS_USERS_TABLES="$(HOME)/usertable.txt"
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(HOME)/postbuild.sh"
 # until this is fixed in the stable branch: 
 # https://github.com/mono/mono/commit/73e4bfeac790cee7681f3797caee41b65186fe7e
 BR2_TARGET_TZ_INFO=y
