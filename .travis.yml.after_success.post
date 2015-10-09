@@ -18,5 +18,5 @@ EOL
 
 # build & push
 docker login -e="." -u="${QUAY_USERNAME}" -p="${QUAY_PASSWORD}" quay.io
-docker build -t quay.io/glerchundi/buildroot-mono:${TRAVIS_TAG} .
-docker push quay.io/glerchundi/buildroot-mono:${TRAVIS_TAG}
+docker build -t quay.io/saltosystems/mono:${TRAVIS_TAG} .
+docker push quay.io/saltosystems/mono:${TRAVIS_TAG}
