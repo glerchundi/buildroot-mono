@@ -7,13 +7,17 @@ if [ -z "${TRAVIS_TAG}" ]; then
 fi
 
 # go home!
-cd ~
+mkdir -p ~/image
+cd ~/image
+
+# copy rootfs
+cp ~/buildroot/output/images/rootfs.tar ~/image
 
 # create Dockerfile
 cat > ./Dockerfile <<EOL
 FROM scratch
 MAINTAINER Gorka Lerchundi Osa <glertxundi@gmail.com>
-ADD ./buildroot/output/images/rootfs.tar /
+ADD ./rootfs.tar /
 EOL
 
 # build & push
