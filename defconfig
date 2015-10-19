@@ -44,7 +44,7 @@ BR2_PACKAGE_MONO_ARCH_SUPPORTS=y
 BR2_PACKAGE_MONO=y
 BR2_PACKAGE_CA_CERTIFICATES=y
 # additional rootfs customizations
-BR2_ROOTFS_USERS_TABLES="$(HOME)/usertable.txt"
+BR2_ROOTFS_USERS_TABLES="$(HOME)/users_table.txt"
 BR2_ROOTFS_POST_BUILD_SCRIPT="$(HOME)/postbuild.sh"
 # until this is fixed in the stable branch: 
 # https://github.com/mono/mono/commit/73e4bfeac790cee7681f3797caee41b65186fe7e
