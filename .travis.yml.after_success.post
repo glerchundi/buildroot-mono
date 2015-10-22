@@ -44,6 +44,6 @@ docker run -it --rm --link docker-daemon:docker \
   -v `pwd`/volume:/volume \
   -e QUAY_USERNAME="${QUAY_USERNAME}" \
   -e QUAY_PASSWORD="${QUAY_PASSWORD}" \
-  -e TAG="${TRAVIS_TAG}"
+  -e TAG="${TRAVIS_TAG}" \
   docker:1.8 \
     sh -c "cd /volume && ./build-and-publish"
