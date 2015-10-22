@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 set -x
 
 # exit if TRAVIS_TAG is empty, no need to release anything
@@ -10,11 +11,14 @@ fi
 mkdir -p ~/image
 cd ~/image
 
+# create a volume for the container
+mkdir volume
+
 # copy rootfs
-cp ~/buildroot/output/images/rootfs.tar ~/image
+cp ~/buildroot/output/images/rootfs.tar ~/volume
 
 # create Dockerfile
-cat > ./Dockerfile <<EOL
+cat > volume/Dockerfile <<EOL
 FROM scratch
 MAINTAINER Gorka Lerchundi Osa <glertxundi@gmail.com>
 ADD ./rootfs.tar /
@@ -22,6 +26,25 @@ RUN /usr/bin/mono /usr/lib/mono/4.5/mozroots.exe --import --machine --sync
 EOL
 
 # build & push
-docker login -e="." -u="${QUAY_USERNAME}" -p="${QUAY_PASSWORD}" quay.io
+cat > volume/build-and-publish <<EOL
+docker login -e="." -u="\${QUAY_USERNAME}" -p="\${QUAY_PASSWORD}" quay.io
 docker build -t quay.io/saltosystems/mono:${TRAVIS_TAG} .
 docker push quay.io/saltosystems/mono:${TRAVIS_TAG}
+EOL
+
+# chown
+chmod 0755 volume/build-and-publish
+
+# use docker in docker due to:
+# FATAL: kernel too old
+# The command '/bin/sh -c /usr/bin/mono /usr/lib/mono/4.5/mozroots.exe --import --machine --sync' returned a non-zero code: 127
+docker run --privileged --name docker-daemon -d docker:1.8-dind
+
+# build image
+docker run -it --rm --link docker-daemon:docker \
+  -v `pwd`/volume:/volume \
+  -v `pwd`/volume:/volume \
+  -e QUAY_USERNAME="${QUAY_USERNAME}" \
+  -e QUAY_PASSWORD="${QUAY_PASSWORD}" \
+  docker:1.8 \
+    sh -c "cd /volume && ./build-and-publish"
