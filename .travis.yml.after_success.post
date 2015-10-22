@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -x
 
 # exit if TRAVIS_TAG is empty, no need to release anything
 if [ -z "${TRAVIS_TAG}" ]; then
@@ -15,7 +14,7 @@ cd ~/image
 mkdir volume
 
 # copy rootfs
-cp ~/buildroot/output/images/rootfs.tar ~/volume
+cp ~/buildroot/output/images/rootfs.tar volume/rootfs.tar
 
 # create Dockerfile
 cat > volume/Dockerfile <<EOL
@@ -28,8 +27,8 @@ EOL
 # build & push
 cat > volume/build-and-publish <<EOL
 docker login -e="." -u="\${QUAY_USERNAME}" -p="\${QUAY_PASSWORD}" quay.io
-docker build -t quay.io/saltosystems/mono:${TRAVIS_TAG} .
-docker push quay.io/saltosystems/mono:${TRAVIS_TAG}
+docker build -t quay.io/saltosystems/mono:\${TAG} .
+docker push quay.io/saltosystems/mono:\${TAG}
 EOL
 
 # chown
@@ -43,8 +42,8 @@ docker run --privileged --name docker-daemon -d docker:1.8-dind
 # build image
 docker run -it --rm --link docker-daemon:docker \
   -v `pwd`/volume:/volume \
-  -v `pwd`/volume:/volume \
   -e QUAY_USERNAME="${QUAY_USERNAME}" \
   -e QUAY_PASSWORD="${QUAY_PASSWORD}" \
+  -e TAG="${TRAVIS_TAG}"
   docker:1.8 \
     sh -c "cd /volume && ./build-and-publish"
