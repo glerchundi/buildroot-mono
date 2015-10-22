@@ -18,6 +18,7 @@ cat > ./Dockerfile <<EOL
 FROM scratch
 MAINTAINER Gorka Lerchundi Osa <glertxundi@gmail.com>
 ADD ./rootfs.tar /
+RUN /usr/bin/mono /usr/lib/mono/4.5/mozroots.exe --import --machine --sync
 EOL
 
 # build & push
