@@ -1,0 +1,33 @@
+machine:
+  environment:
+    CT_RELEASE: 1.0.1
+    BR_RELEASE: 2015.08.1-rev1
+    BR_CIRCLECI_RELEASE: 0.1.0-beta001
+  services:
+    - docker
+
+dependencies:
+  pre:
+    - sudo apt-get update -qq
+    - sudo apt-get install -y build-essential libncurses5-dev rsync cpio python unzip bc wget
+    - if [ -f ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.dependencies.pre.pre ]; then bash -e ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.dependencies.pre; fi
+    - wget https://raw.githubusercontent.com/saltosystems/buildroot-circleci/v${BR_CIRCLECI_RELEASE}/circle.yml.dependencies.pre -O - | bash -e
+    - if [ -f ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.dependencies.pre.post ]; then bash -e ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.dependencies.pre.post; fi
+  override:
+    - if [ -f ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.dependencies.override.pre ]; then bash -e ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.dependencies.override.pre; fi
+    - wget https://raw.githubusercontent.com/saltosystems/buildroot-circleci/v${BR_CIRCLECI_RELEASE}/circle.yml.dependencies.override -O - | bash -e
+    - if [ -f ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.dependencies.override.post ]; then bash -e ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.dependencies.override.post; fi
+
+deployment:
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    commands:
+      - if [ -f ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.deployment.pre ]; then bash -e ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.deployment.pre; fi
+      - wget https://raw.githubusercontent.com/saltosystems/buildroot-circleci/v${BR_CIRCLECI_RELEASE}/circle.yml.deployment -O - | bash -e
+      - if [ -f ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.deployment.post ]; then bash -e ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.deployment.post; fi
+
+#deployment:
+#  prod:
+#    branch: master
+#    commands: 
+#      - wget https://raw.githubusercontent.com/saltosystems/buildroot-travis/v${BR_TRAVIS_RELEASE}/.travis.yml.after_success -O - | bash -e

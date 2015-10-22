@@ -1,7 +1,0 @@
-#!/bin/bash
-set -x
-
-# copy additional files
-cp ${TRAVIS_BUILD_DIR}/users_table.txt ~/users_table.txt
-cp ${TRAVIS_BUILD_DIR}/postbuild.sh ~/postbuild.sh
-chmod 0755 ~/postbuild.sh

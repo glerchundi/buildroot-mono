@@ -1,0 +1,7 @@
+#!/bin/bash
+set -x
+
+# copy additional files
+cp ${HOME}/${CIRCLE_PROJECT_REPONAME}//users_table.txt ~/users_table.txt
+cp ${HOME}/${CIRCLE_PROJECT_REPONAME}//postbuild.sh ~/postbuild.sh
+chmod 0755 ~/postbuild.sh
