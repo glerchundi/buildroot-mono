@@ -11,8 +11,8 @@ rm -rf root/.bash_* home/ftp
 
 # fix issue with absolute paths, until something more is done with this:
 # http://article.gmane.org/gmane.comp.lib.uclibc.buildroot/129991
-find etc/mono -type f -print0 | xargs -0 sed -i 's/\/home\/travis\/buildroot\/output\/host//g'
-find usr/lib/mono -type f -print0 | xargs -0 sed -i 's/\/home\/travis\/buildroot\/output\/host//g'
+find etc/mono -type f -print0 | xargs -0 sed -i "s|$HOST_DIR||g"
+find usr/lib/mono -type f -print0 | xargs -0 sed -i "s|$HOST_DIR||g"
 
 # create required folders
 mkdir -p etc/mono/registry/LocalMachine
