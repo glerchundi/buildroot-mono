@@ -1,6 +1,6 @@
 machine:
   environment:
-    CT_RELEASE: 1.0.1
+    CT_RELEASE: 1.1.0
     BR_RELEASE: 2015.08.1-rev1
     BR_CIRCLECI_RELEASE: 0.1.0-beta001
   services:
