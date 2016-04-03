@@ -1,7 +1,7 @@
 machine:
   environment:
-    CT_RELEASE: 1.1.0
-    BR_RELEASE: 2015.08.1-rev1
+    CT_RELEASE: 1.22.0.0
+    BR_RELEASE: 2016.02-rev1
     BR_CIRCLECI_RELEASE: 0.1.0-beta001
   services:
     - docker
@@ -25,9 +25,3 @@ deployment:
       - if [ -f ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.deployment.pre ]; then bash -e ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.deployment.pre; fi
       - wget https://raw.githubusercontent.com/saltosystems/buildroot-circleci/v${BR_CIRCLECI_RELEASE}/circle.yml.deployment -O - | bash -e
       - if [ -f ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.deployment.post ]; then bash -e ${HOME}/${CIRCLE_PROJECT_REPONAME}/circle.yml.deployment.post; fi
-
-#deployment:
-#  prod:
-#    branch: master
-#    commands: 
-#      - wget https://raw.githubusercontent.com/saltosystems/buildroot-travis/v${BR_TRAVIS_RELEASE}/.travis.yml.after_success -O - | bash -e
